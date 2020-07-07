@@ -1,9 +1,9 @@
 # note_pointcnn
 
-### pointcnn's hierarchical convolution
+## pointcnn's hierarchical convolution
 1. 取样: random if classification, furthest point if segmentation
 2. 选定channel数和depth_multiplier
-3. X-conv获得features ***
+3. [X-conv](## x-conv)获得features
 4. 有list就combine features in previous layers
 5. X-dconv 可能用在segmentation里
 6. Droppout  
@@ -12,7 +12,7 @@ Pointcnn在点集pts中取样得到代表点qrs, 每个代表点找到k近邻，
 经过x-matrix和最后一层separableconv(让dim对的上)后的feature作为这一轮代表点的本身的特征，成为下一轮的点集  
 (抓一群点，从k近邻提炼特征，下一轮从这群点里再抓新的一群点，上一轮的特征这一轮会参考，还可以用list联系参考好几轮之前的特征，点越来越少，特征越来越明显)  
 
-### x-conv
+## x-conv
 ```python3
 def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_transformation, depth_multiplier,
           sorting_method=None, with_global=False):
@@ -45,16 +45,16 @@ def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_tran
 8. 如果segmentation, 可以在最后一层xconv后加代表点全局位置信息 
   * why: 'Harvest the global position information of the representative points in the last X -Conv layer'; receptive field supposed to be less than 1
   
-# overfitting
+## overfitting
 1. dropout  
 2. with_global  
 3. depthwise convolution, 也加快了计算  
 
-# data augmentation
+## data augmentation
 1. 'To train a model that takes N points as input, N (N,(N/8)2) points are used for training, where N denotes a Gaussian distribution.'
 2. 'randomly sample and shuffle the input points, such that both the neighboring point sets and order may differ from batch to batch.'
 
-# potential improvement
+## potential improvement
 1. 作者觉得采样方法可以改进    
 2. 作者写到 ’X -transformations are far from ideal, especially in terms of the permutation’  
 
