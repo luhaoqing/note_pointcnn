@@ -3,7 +3,7 @@
 ## pointcnn's hierarchical convolution
 1. 取样: random if classification, furthest point if segmentation
 2. 选定channel数和depth_multiplier
-3. [X-conv](#x-conv)获得features
+3. [x-conv](#x-conv)获得features
 4. 有list就combine features in previous layers
 5. X-dconv 可能用在segmentation里
 6. Droppout  
@@ -28,14 +28,14 @@ def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_tran
   Depth_multiplier=para in depthwise conv and separable conv  
   Sorting method=k nearest neighbour  
   With_global=whether append global pos info after last x conv layer if segmentation  
-1. 获得代表点(qrs)的k近邻
+1. 获得代表点(qrs)的k近邻  
             * how: K*D nearest neighbour; 带孔D   
             * why: 增加receptive field  
 2. Knn’s relative positions w.r.t representative point(qrs) 
-  * why: ‘X -Conv is designed to work on local point regions, and the output should not be dependent on the absolute position of p and its neighboring points, but on their relative positions.’
+    * why: ‘X -Conv is designed to work on local point regions, and the output should not be dependent on the absolute position of p and its neighboring points, but on their relative positions.’
 3. Lifting relative coordinates (step2) into coordinate features(Dim=(N, P, K, C_pts_fts)) 
-  * how: 2个全连接层  
-  * why: 升维后可以和fts拼接  
+    * how: 2个全连接层  
+    * why: 升维后可以和fts拼接  
 4. 拼接坐标特征和之前的特征(总特征nn_fts_input)，如果是第一层，既没有extra_features，又没有之前层获得的feature，在这层就只用坐标特征
 5. **X-transformation** 训练X matrix   
   * how: 一层conv2d, 两层separable-conv2d  
