@@ -63,6 +63,6 @@ def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_tran
 2. 作者写到 ’X -transformations are far from ideal, especially in terms of the permutation’  
 
 ## reference
-https://blog.csdn.net/sinat_37532065/article/details/83001494
+https://blog.csdn.net/sinat_37532065/article/details/83001494  
 https://zhuanlan.zhihu.com/p/76915660
 
