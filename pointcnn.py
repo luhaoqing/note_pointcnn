@@ -59,7 +59,7 @@ def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_tran
     # 用代表点全局位置信息,
     if with_global:
         fts_global_0 = pf.dense(qrs, C // 4, tag + 'fts_global_0', is_training)
-        fts_global = pf.dense(fts_global_0, C // 4, tag + 'fts_global', is_training) # (N, P, C//4)  最后一层时作者估计receptive field < 1; 从“subvolume supervision”得到启发 to further address the over-fitting problem.;
+        fts_global = pf.dense(fts_global_0, C // 4, tag + 'fts_global', is_training) # (N, P, C//4)  最后一层时作者使receptive field < 1让model更会捕捉local feature; 从“subvolume supervision”得到启发 to further address the over-fitting problem.;
         return tf.concat([fts_global, fts_conv_3d], axis=-1, name=tag + 'fts_conv_3d_with_global')
     else:
         return fts_conv_3d
