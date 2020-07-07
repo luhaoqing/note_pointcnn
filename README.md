@@ -29,8 +29,8 @@ def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_tran
   Sorting method=k nearest neighbour  
   With_global=whether append global pos info after last x conv layer if segmentation  
 1. 获得代表点(qrs)的k近邻  
-            * how: K*D nearest neighbour; 带孔D   
-            * why: 增加receptive field  
+    * how: K*D nearest neighbour; 带孔D   
+    * why: 增加receptive field  
 2. Knn’s relative positions w.r.t representative point(qrs) 
     * why: ‘X -Conv is designed to work on local point regions, and the output should not be dependent on the absolute position of p and its neighboring points, but on their relative positions.’
 3. Lifting relative coordinates (step2) into coordinate features(Dim=(N, P, K, C_pts_fts)) 
@@ -38,12 +38,12 @@ def xconv(pts, fts, qrs, tag, N, K, D, P, C, C_pts_fts, is_training, with_X_tran
     * why: 升维后可以和fts拼接  
 4. 拼接坐标特征和之前的特征(总特征nn_fts_input)，如果是第一层，既没有extra_features，又没有之前层获得的feature，在这层就只用坐标特征
 5. **X-transformation** 训练X matrix   
-  * how: 一层conv2d, 两层separable-conv2d  
+    * how: 一层conv2d, 两层separable-conv2d  
 6. X-transformation*总特征(step 4) = fts_X
 7. 最后一层维度从(N, P, K, C_pts_fts) 到 (N, P, C)得到输出特征矩阵  
-  * how: separable-conv2d + squeeze
+    * how: separable-conv2d + squeeze
 8. 如果segmentation, 可以在最后一层xconv后加代表点全局位置信息 
-  * why: 'Harvest the global position information of the representative points in the last X -Conv layer'; receptive field supposed to be less than 1
+    * why: 'Harvest the global position information of the representative points in the last X -Conv layer'; receptive field supposed to be less than 1
   
 ## overfitting
 1. dropout  
